@@ -1,0 +1,23 @@
+{
+  "name": "peace-md-session-id-generator",
+  "version": "1.0.0",
+  "description": "A modern session ID generator for the PEACE MD project, implemented in mega.js.",
+  "main": "mega.js",
+  "scripts": {
+    "start": "echo 'Static frontend project. Use a live server to preview.'",
+    "dev": "live-server --open=./index.html"
+  },
+  "keywords": [
+    "session-id",
+    "PEACE-MD",
+    "frontend",
+    "generator",
+    "JavaScript"
+  ],
+  "author": "Peacemaker",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}
