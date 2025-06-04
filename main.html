@@ -1,29 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>PEACE MD SESSION</title>
   <style>
-    body {
+    * {
+      box-sizing: border-box;
       margin: 0;
-      background-color: #f0f0f0;
-      font-family: sans-serif;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      background: url('https://files.catbox.moe/n0dgjr.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+    }
+
+    .overlay {
+      background: rgba(0, 0, 0, 0.7);
+      min-height: 100%;
+      padding: 20px;
+    }
+
+    .title {
+      text-align: center;
+      font-size: 32px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      margin-bottom: 25px;
     }
 
     .status-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 8px 12px;
-      background-color: #000;
-      color: white;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 10px 20px;
+      border-radius: 10px;
+      margin-bottom: 30px;
       font-size: 14px;
-      width: 100%;
-      box-sizing: border-box;
-    }
-
-    .time {
-      font-weight: bold;
     }
 
     .battery {
@@ -32,11 +50,11 @@
     }
 
     .battery-icon {
-      width: 20px;
-      height: 10px;
+      width: 24px;
+      height: 12px;
       border: 2px solid white;
       position: relative;
-      margin-right: 6px;
+      margin-right: 5px;
     }
 
     .battery-icon::after {
@@ -50,39 +68,87 @@
     }
 
     .battery-level {
-      background: limegreen;
       height: 100%;
-      width: 70%; /* Represents 70% battery */
+      background-color: limegreen;
     }
 
-    .battery-text {
-      margin-left: 6px;
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .btn {
+      background: #800000cc; /* Light maroon */
+      color: white;
+      padding: 15px 25px;
+      width: 80%;
+      max-width: 300px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .btn:hover {
+      background: #a52a2acc;
+      transform: scale(1.05);
     }
   </style>
 </head>
 <body>
+  <div class="overlay">
+    <div class="title">PEACE MD</div>
 
-  <div class="status-bar">
-    <div class="time" id="phone-time">--:--</div>
-    <div class="battery">
-      <div class="battery-icon">
-        <div class="battery-level"></div>
+    <div class="status-bar">
+      <div id="phone-time">--:--</div>
+      <div class="battery">
+        <div class="battery-icon">
+          <div class="battery-level" id="battery-level" style="width: 100%;"></div>
+        </div>
+        <div id="battery-text">100%</div>
       </div>
-      <div class="battery-text">70%</div>
+    </div>
+
+    <div class="buttons">
+      <button class="btn">Paircode</button>
+      <button class="btn">QR Code</button>
+      <button class="btn">WhatsApp Channel</button>
+      <button class="btn">Developer Peacemaker</button>
+      <button class="btn">Error</button>
     </div>
   </div>
 
   <script>
+    // Clock
     function updateTime() {
       const now = new Date();
-      const hours = now.getHours().toString().padStart(2, '0');
-      const minutes = now.getMinutes().toString().padStart(2, '0');
-      document.getElementById('phone-time').textContent = `${hours}:${minutes}`;
+      const hrs = String(now.getHours()).padStart(2, '0');
+      const mins = String(now.getMinutes()).padStart(2, '0');
+      document.getElementById('phone-time').textContent = `${hrs}:${mins}`;
     }
 
     updateTime();
     setInterval(updateTime, 1000);
-  </script>
 
+    // Battery API
+    if (navigator.getBattery) {
+      navigator.getBattery().then(function(battery) {
+        function updateBattery() {
+          const level = Math.round(battery.level * 100);
+          document.getElementById('battery-text').textContent = `${level}%`;
+          const batteryLevel = document.getElementById('battery-level');
+          batteryLevel.style.width = `${level}%`;
+          batteryLevel.style.backgroundColor = level > 20 ? 'limegreen' : 'red';
+        }
+
+        updateBattery();
+        battery.addEventListener('levelchange', updateBattery);
+      });
+    }
+  </script>
 </body>
 </html>
