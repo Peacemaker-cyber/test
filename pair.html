@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PEACE MD</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: url('https://files.catbox.moe/n0dgjr.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    input {
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: none;
+      width: 250px;
+      margin-bottom: 1rem;
+    }
+    button {
+      padding: 10px 20px;
+      background: #00ff88cc;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      color: white;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>PEACE MD</h1>
+  <p>Enter your WhatsApp number, best regards — Peacemaker</p>
+  <input type="text" id="number" placeholder="+123456789" />
+  <button onclick="submitPair()">Submit</button>
+
+  <script src="pair.js" type="module"></script>
+</body>
+</html>
