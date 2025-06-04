@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>PEACE MD SESSION</title>
+  <title>PEACE MD</title>
   <style>
     * {
       box-sizing: border-box;
@@ -23,11 +23,14 @@
       background: rgba(0, 0, 0, 0.7);
       min-height: 100%;
       padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .title {
       text-align: center;
-      font-size: 32px;
+      font-size: 36px;
       font-weight: bold;
       letter-spacing: 2px;
       margin-bottom: 25px;
@@ -42,6 +45,8 @@
       border-radius: 10px;
       margin-bottom: 30px;
       font-size: 14px;
+      width: 100%;
+      max-width: 500px;
     }
 
     .battery {
@@ -77,10 +82,11 @@
       flex-direction: column;
       align-items: center;
       gap: 15px;
+      margin-bottom: 30px;
     }
 
     .btn {
-      background: #800000cc; /* Light maroon */
+      background: #00ff88cc;
       color: white;
       padding: 15px 25px;
       width: 80%;
@@ -94,8 +100,16 @@
     }
 
     .btn:hover {
-      background: #a52a2acc;
+      background: #00cc66cc;
       transform: scale(1.05);
+    }
+
+    footer {
+      text-align: center;
+      font-size: 14px;
+      margin-top: auto;
+      padding: 20px;
+      color: #ccc;
     }
   </style>
 </head>
@@ -114,13 +128,18 @@
     </div>
 
     <div class="buttons">
-      <button class="btn">Paircode</button>
-      <button class="btn">QR Code</button>
-      <button class="btn">WhatsApp Channel</button>
-      <button class="btn">Developer Peacemaker</button>
-      <button class="btn">Error</button>
+      <button class="btn" onclick="window.location.href='qr.html'">QR Code</button>
+      <button class="btn" onclick="window.location.href='pair.html'">Pair Code</button>
+      <button class="btn" onclick="window.open('https://wa.me/1234567890', '_blank')">Developer</button>
+      <button class="btn" onclick="window.open('https://whatsapp.com/channel/peace-md', '_blank')">WhatsApp Channel</button>
+      <button class="btn" onclick="window.open('https://support.peacemakermd.com', '_blank')">Support</button>
+      <button class="btn" onclick="document.getElementById('audio').play()">Play Music</button>
     </div>
+
+    <footer>PEACEMAKER TECH SOLUTIONS @2025</footer>
   </div>
+
+  <audio id="audio" src="https://files.catbox.moe/09ku2f.mp3"></audio>
 
   <script>
     // Clock
