@@ -5,184 +5,78 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>PEACE MD</title>
   <style>
-    * {
-      box-sizing: border-box;
+    body {
       margin: 0;
-      padding: 0;
-    }
-
-    html, body {
-      height: 100%;
       font-family: 'Segoe UI', sans-serif;
       background: url('https://files.catbox.moe/n0dgjr.jpg') no-repeat center center fixed;
       background-size: cover;
       color: white;
     }
-
     .overlay {
       background: rgba(0, 0, 0, 0.7);
-      min-height: 100%;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .title {
+      min-height: 100vh;
+      padding: 2rem;
       text-align: center;
-      font-size: 36px;
-      font-weight: bold;
-      letter-spacing: 2px;
-      margin-bottom: 25px;
     }
-
-    .status-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(255, 255, 255, 0.1);
-      padding: 10px 20px;
-      border-radius: 10px;
-      margin-bottom: 30px;
-      font-size: 14px;
-      width: 100%;
-      max-width: 500px;
-    }
-
-    .battery {
-      display: flex;
-      align-items: center;
-    }
-
-    .battery-icon {
-      width: 24px;
-      height: 12px;
-      border: 2px solid white;
-      position: relative;
-      margin-right: 5px;
-    }
-
-    .battery-icon::after {
-      content: '';
-      position: absolute;
-      right: -5px;
-      top: 2px;
-      width: 3px;
-      height: 6px;
-      background: white;
-    }
-
-    .battery-level {
-      height: 100%;
-      background-color: limegreen;
-    }
-
-    .buttons {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 15px;
-      margin-bottom: 30px;
-    }
-
     .btn {
-      background: #00ff88cc;
-      color: white;
-      padding: 15px 25px;
-      width: 80%;
-      max-width: 300px;
+      background: lightgreen;
+      color: black;
+      padding: 1rem 2rem;
+      margin: 10px;
       border: none;
       border-radius: 10px;
+      font-weight: bold;
       font-size: 16px;
-      font-weight: 600;
       cursor: pointer;
-      transition: background 0.3s, transform 0.2s;
     }
-
-    .btn:hover {
-      background: #00cc66cc;
-      transform: scale(1.05);
-    }
-
     footer {
-      text-align: center;
+      margin-top: 2rem;
       font-size: 14px;
-      margin-top: auto;
-      padding: 20px;
-      color: #ccc;
     }
   </style>
 </head>
 <body>
   <div class="overlay">
-    <div class="title">PEACE MD</div>
-
-    <div class="status-bar">
-      <div id="phone-time">--:--</div>
-      <div class="battery">
-        <div class="battery-icon">
-          <div class="battery-level" id="battery-level" style="width: 100%;"></div>
-        </div>
-        <div id="battery-text">100%</div>
-      </div>
+    <h1>PEACE MD</h1>
+    <div id="status-bar">
+      <span id="time">--:--</span> |
+      <span id="battery">Battery: --%</span>
     </div>
-
-    <div class="buttons">
-      <button class="btn" onclick="window.location.href='qr.html'">QR Code</button>
-      <button class="btn" onclick="window.location.href='pair.html'">Pair Code</button>
-      <button class="btn" onclick="window.open('https://wa.me/1234567890', '_blank')">Developer</button>
-      <button class="btn" onclick="window.open('https://whatsapp.com/channel/peace-md', '_blank')">WhatsApp Channel</button>
-      <button class="btn" onclick="window.open('https://support.peacemakermd.com', '_blank')">Support</button>
-      <button class="btn" onclick="toggleMusic(this)">Play Music</button>
-      <script>
-  const audio = document.getElementById('audio');
-  let isPlaying = false;
-
-  function toggleMusic(btn) {
-    if (isPlaying) {
-      audio.pause();
-      btn.textContent = 'Play Music';
-    } else {
-      audio.play();
-      btn.textContent = 'Pause Music';
-    }
-    isPlaying = !isPlaying;
-  }
-</script>
+    <div>
+      <button class="btn" onclick="window.location.href='qr.html'">QR CODE</button>
+      <button class="btn" onclick="window.location.href='pair.html'">PAIR CODE</button>
+      <button class="btn">DEVELOPER</button>
+      <button class="btn">WHATSAPP CHANNEL</button>
+      <button class="btn" onclick="toggleMusic()">PLAY MUSIC</button>
     </div>
-
     <footer>PEACEMAKER TECH SOLUTIONS @2025</footer>
   </div>
-
   <audio id="audio" src="https://files.catbox.moe/09ku2f.mp3"></audio>
-
   <script>
-    // Clock
+    const audio = document.getElementById('audio');
+    let playing = false;
+
+    function toggleMusic() {
+      playing ? audio.pause() : audio.play();
+      playing = !playing;
+    }
+
+    // Battery
+    navigator.getBattery?.().then(battery => {
+      function updateBattery() {
+        document.getElementById('battery').textContent = `Battery: ${Math.round(battery.level * 100)}%`;
+      }
+      updateBattery();
+      battery.addEventListener('levelchange', updateBattery);
+    });
+
+    // Time
     function updateTime() {
       const now = new Date();
-      const hrs = String(now.getHours()).padStart(2, '0');
-      const mins = String(now.getMinutes()).padStart(2, '0');
-      document.getElementById('phone-time').textContent = `${hrs}:${mins}`;
+      document.getElementById('time').textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     }
-
-    updateTime();
     setInterval(updateTime, 1000);
-
-    // Battery API
-    if (navigator.getBattery) {
-      navigator.getBattery().then(function(battery) {
-        function updateBattery() {
-          const level = Math.round(battery.level * 100);
-          document.getElementById('battery-text').textContent = `${level}%`;
-          const batteryLevel = document.getElementById('battery-level');
-          batteryLevel.style.width = `${level}%`;
-          batteryLevel.style.backgroundColor = level > 20 ? 'limegreen' : 'red';
-        }
-
-        updateBattery();
-        battery.addEventListener('levelchange', updateBattery);
-      });
-    }
+    updateTime();
   </script>
 </body>
 </html>
