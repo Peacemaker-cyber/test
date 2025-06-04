@@ -133,7 +133,22 @@
       <button class="btn" onclick="window.open('https://wa.me/1234567890', '_blank')">Developer</button>
       <button class="btn" onclick="window.open('https://whatsapp.com/channel/peace-md', '_blank')">WhatsApp Channel</button>
       <button class="btn" onclick="window.open('https://support.peacemakermd.com', '_blank')">Support</button>
-      <button class="btn" onclick="document.getElementById('audio').play()">Play Music</button>
+      <button class="btn" onclick="toggleMusic(this)">Play Music</button>
+      <script>
+  const audio = document.getElementById('audio');
+  let isPlaying = false;
+
+  function toggleMusic(btn) {
+    if (isPlaying) {
+      audio.pause();
+      btn.textContent = 'Play Music';
+    } else {
+      audio.play();
+      btn.textContent = 'Pause Music';
+    }
+    isPlaying = !isPlaying;
+  }
+</script>
     </div>
 
     <footer>PEACEMAKER TECH SOLUTIONS @2025</footer>
