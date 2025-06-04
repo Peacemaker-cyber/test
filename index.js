@@ -1,41 +1,20 @@
 import express from 'express';
+import pkg from '@whiskeysockets/baileys';
 import { Boom } from '@hapi/boom';
-import makeWASocket, { useSingleFileAuthState, DisconnectReason } from '@whiskeysockets/baileys';
+import { fileURLToPath } from 'url';
+import path from 'path';
 
-const { state, saveState } = useSingleFileAuthState('./auth.json');
+const { useSingleFileAuthState, DisconnectReason, makeWASocket } = pkg;
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(express.json());
+// Serve static frontend
+app.use(express.static(path.join(__dirname, 'public')));
 
-let sock;
-
-async function startBot() {
-  sock = makeWASocket({
-    auth: state,
-    printQRInTerminal: false
-  });
-
-  sock.ev.on('creds.update', saveState);
-  sock.ev.on('connection.update', ({ connection, lastDisconnect, qr }) => {
-    if (qr) sock.qrCode = qr;
-    if (connection === 'close') {
-      const shouldReconnect = lastDisconnect.error?.output?.statusCode !== DisconnectReason.loggedOut;
-      if (shouldReconnect) startBot();
-    }
-  });
-}
-
-startBot();
-
-app.get('/qr', (req, res) => {
-  res.json({ qr: sock.qrCode || null });
+app.listen(PORT, () => {
+  console.log(`Server started at http://localhost:${PORT}`);
 });
-
-app.post('/pair', (req, res) => {
-  const { number } = req.body;
-  // Custom logic here to trigger WhatsApp message
-  res.json({ status: 'Pairing started for ' + number });
-});
-
-app.listen(PORT, () => console.log(`PEACE MD server running on ${PORT}`));
