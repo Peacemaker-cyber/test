@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PEACE MD SESSION</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #f0f0f0;
+      font-family: sans-serif;
+    }
+
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+      background-color: #000;
+      color: white;
+      font-size: 14px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .time {
+      font-weight: bold;
+    }
+
+    .battery {
+      display: flex;
+      align-items: center;
+    }
+
+    .battery-icon {
+      width: 20px;
+      height: 10px;
+      border: 2px solid white;
+      position: relative;
+      margin-right: 6px;
+    }
+
+    .battery-icon::after {
+      content: '';
+      position: absolute;
+      right: -5px;
+      top: 2px;
+      width: 3px;
+      height: 6px;
+      background: white;
+    }
+
+    .battery-level {
+      background: limegreen;
+      height: 100%;
+      width: 70%; /* Represents 70% battery */
+    }
+
+    .battery-text {
+      margin-left: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="status-bar">
+    <div class="time" id="phone-time">--:--</div>
+    <div class="battery">
+      <div class="battery-icon">
+        <div class="battery-level"></div>
+      </div>
+      <div class="battery-text">70%</div>
+    </div>
+  </div>
+
+  <script>
+    function updateTime() {
+      const now = new Date();
+      const hours = now.getHours().toString().padStart(2, '0');
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      document.getElementById('phone-time').textContent = `${hours}:${minutes}`;
+    }
+
+    updateTime();
+    setInterval(updateTime, 1000);
+  </script>
+
+</body>
+</html>
